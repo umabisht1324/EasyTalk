@@ -1,0 +1,101 @@
+/* Add this to your existing CSS */
+
+.profile-info {
+    text-align: center;
+    color: white;
+}
+
+.profile-image {
+    max-width: 150px; /* Adjust as needed */
+    border-radius: 50%; /* Make it circular */
+    margin-bottom: 20px;
+}
+
+
+body {
+    background-color: #1A374D;
+}
+
+* {
+margin: 0;
+padding: 0;
+}
+
+#personal {
+color:white;
+text-decoration:none;
+position:absolute;
+bottom:15px;
+right:2%;
+}
+
+.spot {
+position: absolute;
+width: 100%;
+height: 100%;
+top: 0;
+left: 0;
+}
+
+.svg-wrapper {
+margin-top: 0;
+position: relative;
+width: 150px;
+/*make sure to use same height/width as in the html*/
+height: 40px;
+display: inline-block;
+border-radius: 3px;
+margin-left: 5px;
+margin-right: 5px
+}
+
+#shape {
+stroke-width: 6px;
+fill: transparent;
+stroke: #B1D0E0;
+stroke-dasharray: 85 400;
+stroke-dashoffset: -220;
+transition: 1s all ease;
+}
+
+#text {
+margin-top: -35px;
+text-align: center;
+}
+
+#text a {
+color: white;
+text-decoration: none;
+font-weight: 100;
+font-size: 1.1em;
+}
+
+.svg-wrapper:hover #shape {
+stroke-dasharray: 50 0;
+stroke-width: 3px;
+stroke-dashoffset: 0;
+stroke: #B1D0E0;
+}
+
+/* Add this to your existing CSS or create a new CSS file */
+
+.change-password {
+    margin-top: 30px;
+    padding: 20px;
+    background-color: #253647; /* Adjust as needed */
+    border-radius: 8px;
+}
+
+.change-password h3 {
+    color: white;
+}
+
+.form-label {
+    color: white;
+}
+
+.form-control {
+    background-color: #1A374D;
+    color: white;
+    border: 1px solid #B1D0E0;
+}

@@ -1,0 +1,47 @@
+{% extends "base2.html" %}
+{% block title %}User Profile{% endblock %}
+{% block content %}
+
+<style>
+    body {
+        background-color: #f8f9fa; /* Change the background color as needed */
+        overflow: hidden; /* Hide the scroll bar */
+    }
+
+    .container {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 80vh; /* Adjust the height as needed */
+    }
+
+    .profile-info {
+        text-align: center;
+        color: #000000; /* Black text color */
+        margin-top: -50px; /* Adjust the margin to move content above */
+    }
+
+    .profile-image {
+        width: 150px; /* Adjust the width as needed */
+        height: 150px; /* Adjust the height as needed */
+        border-radius: 50%;
+        margin-bottom: 20px;
+    }
+
+    /* Add more styles as needed */
+</style>
+
+<div class="container mt-4">
+    <div class="profile-info">
+        <img src="{{ url_for('static', filename='images/person.png') }}" alt="Profile Image" class="profile-image">
+        <h2>User Profile</h2>
+        <p>Email: {{ current_user.email }}</p>
+        <p>First Name: {{ current_user.first_name }}</p>
+        <!-- Add more user-related information as needed -->
+        
+        <!-- Add a button to navigate to Change Password page -->
+        <a href="{{ url_for('auth.change_password') }}" class="btn btn-primary">Change Password</a>
+    </div>
+</div>
+
+{% endblock %}

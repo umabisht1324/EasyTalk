@@ -1,0 +1,195 @@
+{% extends "base2.html" %}
+{% block styles %}
+<style>
+    .search-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 20px;
+        background-color: #1A374D;
+        border-radius: 10px;
+        color: white;
+        margin: 5% auto;
+        /* Adjust the margin as needed */
+        width: 60%;
+        /* Adjust the width as needed */
+        max-height: 80vh;
+        /* Add max-height and overflow-y for scroll feature */
+        overflow-y: auto;
+    }
+
+    .search-bar-container {
+        display: flex;
+        align-items: center;
+        width: 100%;
+        margin-bottom: 15px;
+        /* Increase the margin as needed */
+    }
+
+    .search-bar {
+        flex: 1;
+        padding: 15px;
+        /* Increase the padding as needed */
+        border-radius: 25px;
+        /* Increase the border-radius as needed */
+        font-size: 18px;
+        /* Increase the font-size as needed */
+    }
+
+    .microphone-icon {
+        cursor: pointer;
+        margin-left: 15px;
+        /* Increase the margin as needed */
+    }
+
+    .microphone-icon img {
+        width: 40px;
+        /* Increase the width as needed */
+        height: 44px;
+        /* Increase the height as needed */
+        border-radius: 53px;
+        /* Increase the border-radius as needed */
+    }
+
+    .search-results {
+        margin-top: 20px;
+        color: white;
+    }
+
+    .btn-outline-info {
+        font-size: 20px;
+        /* Increase the font-size as needed */
+        padding: 15px;
+        /* Increase the padding as needed */
+        border-radius: 25px;
+        /* Increase the border-radius as needed */
+    }
+</style>
+{% endblock %}
+{% block title %}EasyTalk-Audio generate{% endblock %}
+{% block content %}
+<div class="search-container">
+    <form action="" method="POST" id="voiceSearchForm">
+        {{ form.csrf_token() }}
+        <fieldset class="form-group">
+            <legend class="mb-4" style="Andale Mono, monospace; color: white;">
+                <h3>Voice Search</h3>
+            </legend>
+
+            <!-- Search Bar Container -->
+            <div class="search-bar-container">
+                <!-- Search Bar -->
+                <input type="text" name="text_field" class="form-control search-bar" placeholder="Type your search..."
+                    required>
+
+                <!-- Microphone Icon -->
+                <span class="microphone-icon" onclick="startVoiceSearch()">
+                    <img src="{{ url_for('static', filename='images/microphone.png') }}" alt="Microphone">
+                </span>
+            </div>
+
+            <div class="form-group.border-bottom-pd-3 mt-4">
+                <button type="button" class="btn btn-outline-info" onclick="submitVoiceSearch()">Search</button>
+            </div>
+
+            <!-- Search Results Area -->
+            <div class="search-results" id="searchResults"></div>
+        </fieldset>
+    </form>
+</div>
+
+{% if audio %}
+<div class="d-flex justify-content-center mt-4">
+    <audio controls class="m-auto">
+        <source src="{{ url_for('static', filename='audio_files/' + file) }}">
+        Your browser does not support the audio
+    </audio>
+</div>
+{% endif %}
+
+<script>
+
+    function startVoiceSearch() {
+        try {
+            
+            if ('SpeechRecognition' in window || 'webkitSpeechRecognition' in window) {
+                var recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
+
+                
+                recognition.lang = 'en-US';
+
+                recognition.onstart = function () {
+                    console.log("Speak now...");
+                };
+
+                
+                recognition.onresult = function (event) {
+                    var transcript = event.results[0][0].transcript;
+                    console.log("Speech recognized:", transcript);
+                    // update the srch res
+                    document.querySelector('.search-bar').value = transcript;
+                };
+
+                // Callback when speech recognition ends
+                recognition.onend = function () {
+                    console.log("Speech recognition ended.");
+                };
+
+                
+                recognition.start();
+            } else {
+                throw new Error("Speech recognition not supported in this browser.");
+            }
+        } catch (error) {
+            console.error("Error starting voice search:", error.message);
+        }
+    }
+
+
+    function submitVoiceSearch() {
+        var searchTerm = document.querySelector('.search-bar').value;
+        console.log("Search term:", searchTerm);
+
+        
+        var apiKey = 'AIzaSyBapcUSxwBOY9H_D7BlUDyIu-oAm2BWw-g';
+        var cx = '27a1a43e6a68b429c';
+
+        var apiUrl = `https://www.googleapis.com/customsearch/v1?q=${searchTerm}&key=${apiKey}&cx=${cx}`;
+
+        fetch(apiUrl)
+            .then(response => response.json())
+            .then(data => {
+                
+                displaySearchResults(data.items);
+            })
+            .catch(error => console.error('Error fetching search results:', error));
+    }
+
+    function displaySearchResults(results) {
+        var searchResultsContainer = document.getElementById("searchResults");
+        searchResultsContainer.innerHTML = "";
+
+        if (results && results.length > 0) {
+            var resultList = document.createElement("ul");
+
+            results.forEach(result => {
+                var listItem = document.createElement("li");
+                var link = document.createElement("a");
+                link.href = result.link;
+                link.textContent = result.title;
+                listItem.appendChild(link);
+                resultList.appendChild(listItem);
+            });
+
+            searchResultsContainer.appendChild(resultList);
+        } else {
+            searchResultsContainer.innerHTML = "<p>No results found.</p>";
+        }
+    }
+
+
+</script>
+
+</script>
+
+{% endblock %}

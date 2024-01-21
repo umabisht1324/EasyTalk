@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>View Users</title>
+    <style>
+        body {
+            background-color: #1A374D;
+            color: white;
+        }
+
+        table {
+            border-collapse: collapse;
+            width: 80%;
+            margin: 20px auto;
+        }
+
+        th, td {
+            border: 1px solid #B1D0E0;
+            padding: 10px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #6998AB;
+            color: white;
+        }
+
+        #searchImage {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-size: 300% 300%;
+        }
+
+        #personal {
+            color: white;
+            text-decoration: none;
+            position: absolute;
+            bottom: 15px;
+            right: 2%;
+        }
+    </style>
+</head>
+<body>
+    <!-- The rest of your HTML content here -->
+    <h1>Registered Users</h1>
+    <table border="1">
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Password</th>
+        </tr>
+        {% for user in users %}
+            <tr>
+                <td>{{ user.id }}</td>
+                <td>{{ user.first_name }}</td>
+                <td>{{ user.email }}</td>
+                <td>{{ user.password }}</td>
+            </tr>
+        {% endfor %}
+    </table>
+    <!-- Additional content if any -->
+</body>
+</html>
